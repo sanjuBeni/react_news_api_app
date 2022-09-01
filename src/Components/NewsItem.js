@@ -2,7 +2,7 @@ import { Component } from "react";
 
 export default class NewsItems extends Component {
   render() {
-    let { title, description,imgUrl, urlNews} = this.props;
+    let { title, description,imgUrl, urlNews, author,publishDate} = this.props;
     return (
       <>
         <div className="card" style={{ width: "18rem" }}>
@@ -12,7 +12,8 @@ export default class NewsItems extends Component {
             <p className="card-text">
               {description.slice(0,70)}...
             </p>
-            <a href={urlNews} target="_blank" className="btn btn-sm btn-primary">
+            <p className="card-text"><small className="text-muted">By {author} on {new Date(publishDate).toGMTString()}</small></p>
+            <a rel="noreferrer" href={urlNews} target="_blank" className="btn btn-sm btn-primary">
               Read More
             </a>
           </div>
