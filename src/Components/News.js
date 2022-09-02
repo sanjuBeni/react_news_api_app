@@ -29,16 +29,19 @@ export default class News extends Component {
   };
 
   async updateNews(pageNo) {
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=91367dbca3854177b8b02d21aebca4c0&page=${pageNo}&pageSize=${this.props.pageSize}`;
+    this.props.setProgress(20);
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${pageNo}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     let data = await fetch(url);
     let jsonData = await data.json();
+    this.props.setProgress(70);
     // console.log(jsonData);
     this.setState({
       articles: jsonData.articles,
       totalResults: jsonData.totalResults,
       loading: false,
     });
+    this.props.setProgress(100);
   }
 
   async componentDidMount() {
@@ -100,7 +103,7 @@ export default class News extends Component {
 
   fetchMoreData = async () =>{
     this.setState({page: ++this.state.page});
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=91367dbca3854177b8b02d21aebca4c0&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     let data = await fetch(url);
     let jsonData = await data.json();
     // console.log(jsonData);
@@ -131,7 +134,9 @@ export default class News extends Component {
           </div> */}
         {/* </div> */}
         {/* Infinite scroll  */}
-        <h2 className="mt-4 text-center">News App - To Headling</h2>
+        <div style={{marginTop: "70px"}}>
+          <h2 className="mt-3 text-center">News App - To Headling</h2>
+        </div>
         {this.state.loading && <Spinner />}
         <InfiniteScroll
           style={{ height: 'auto', overflow: 'none' }}
